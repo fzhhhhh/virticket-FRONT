@@ -1,0 +1,13 @@
+agregar un tabla que contenga unos lugares ya cargados para la tabla sino cambiarlo directamnte con lo siguiente de vuelta
+
+            <Col md={8}>
+              <Form.Group className="mb-4" controlId="lugar">
+                <Form.Label>Lugar</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingrese el lugar"
+                  value={lugar}
+                  onChange={(e) => setLugar(e.target.value)}
+                />
+              </Form.Group>
+            </Col>

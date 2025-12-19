@@ -1,0 +1,13 @@
+.carousel-mostrar-imagenes {
+  height: 45vh;
+}
+
+.carousel-mostrar-imagenes .carousel-item {
+  height: 40vh;
+}
+
+.hero-image {
+  height: 45vh;
+  object-fit: cover;
+}
+

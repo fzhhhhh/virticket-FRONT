@@ -1,0 +1,44 @@
+.navegacion {
+  background: #000;
+  height: 120px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-inner {
+  width: 100%;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+   justify-content: flex-start; 
+  gap: 24px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  
+}
+
+.navbar-left img {
+  height: 185px;        /* PROTAGONISTA */
+  max-width: 320px;   /* logos largos */
+  width: auto;
+  object-fit: contain;
+}
+
+.navbar-center {
+  display: flex;
+  opacity: 0.85;
+  justify-content: center;
+}
+
+.navbar-right {
+  margin-left: auto; /* 🔥 empuja solo este bloque */
+  display: flex;
+  align-items: center;
+}
+.navbar-right button {
+  transform: scale(0.95);
+}

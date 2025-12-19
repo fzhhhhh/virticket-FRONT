@@ -1,0 +1,10 @@
+.eventos-container {
+  padding: 40px 48px;
+  background: #0b0b0b;
+}
+
+.eventos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px;
+}

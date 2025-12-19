@@ -1,0 +1,3 @@
+agregue la opcion de ver mas con el navigate
+
+falta agregar el modificar evento con el boton 

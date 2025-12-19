@@ -1,0 +1,15 @@
+agregue el panel de administrador de prueba
+si la pagina tira este error VM191:1 Uncaught SyntaxError: "undefined" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at NavBar (NavBar.jsx:13:52)
+    at react-stack-bottom-frame (react-dom_client.js?v=3101774a:17422:20)
+    at renderWithHooks (react-dom_client.js?v=3101774a:4204:24)
+    at updateFunctionComponent (react-dom_client.js?v=3101774a:6617:21)
+    at beginWork (react-dom_client.js?v=3101774a:7652:20)
+    at runWithFiberInDEV (react-dom_client.js?v=3101774a:1483:72)
+    at performUnitOfWork (react-dom_client.js?v=3101774a:10866:98)
+    at workLoopSync (react-dom_client.js?v=3101774a:10726:43)
+    at renderRootSync (react-dom_client.js?v=3101774a:10709:13)
+
+    -correr localStorage.getItem("user")
+    -localStorage.removeItem("user");

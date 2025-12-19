@@ -1,0 +1,50 @@
+.evento-card {
+  background: #111;
+  color: white;
+  border-radius: 1px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.evento-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(0,0,0,.45);
+}
+
+.evento-card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.evento-card-body {
+  padding: 16px;
+}
+
+.evento-card-body h3 {
+  font-size: 1.1rem;
+  margin: 0 0 6px;
+}
+
+.evento-lugar,
+.evento-fecha {
+  color: #aaa;
+  font-size: .9rem;
+}
+
+.evento-oculto {
+  color: #ffc107;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.evento-acciones {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.eventos-container {
+  padding-top: 16px;
+}

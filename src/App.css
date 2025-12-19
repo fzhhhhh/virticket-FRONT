@@ -1,0 +1,87 @@
+
+/* MODIFICACION PARA LAS TARJETAS DE LOS EVENTOS LAS DEMAS MODIFICACIONES SE HACEN EN CardEventos.jsx */
+
+.card-evento {
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.card-evento:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.22);
+}
+
+/* AJUSTAR BODY */
+
+body {
+  background-color: rgba(0, 0, 0, 0.22);
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Ocupa todo el ancho */
+  height: 100%h; /* Ocupa toda la altura */
+}
+
+/* LOGO DEL NAVBAR */
+
+.navbar-logo {
+  color: #000000 !important;
+  text-decoration: none !important;
+  font-weight: bold;
+  font-size: 2rem;
+  letter-spacing: 10px;
+  transition: color 0.6s ease, transform 0.3s ease;
+  text-shadow: 0 0 5px #00ffcc88;
+}
+.navbar-logo:hover {
+  color: #66ffe5 !important;
+  transform: scale(1.1); /* leve agrandamiento */
+}
+
+.mb-4 {
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  transition: color 0.6s ease, transform 0.3s ease;
+  text-shadow: 0 0 5px #0c552d88;
+}
+.navbar-logo:hover {
+  color: #66ffe5 !important;
+  transform: scale(1.1); /* leve agrandamiento */
+}
+
+.mostrar-imagenes {
+  height: 25vw;
+  width: 100vw;
+  justify-content: center;
+  display: block;
+  max-width: 100%;
+  border-radius: 20px;
+  border: 5px solid;
+}
+.carousel-mostrar-imagenes {
+  display: flex;             /* Para usar flexbox */
+  justify-content: center;   /* Centrar horizontalmente el contenido */
+  margin: 0 auto;            /* Centrar el contenedor en la página */
+  width: 100vw;               /* Ancho del 80% del viewport */
+  padding-top: 2%;
+ 
+
+}
+
+.eventos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  max-width: 100%;
+  gap: 0.5rem;
+  padding-top: 0%;
+  min-height: 50vh;
+  justify-content: center;
+  place-content: center;
+}
+
+/* Limita el número de columnas a 5 */
+@media (min-width: 1600px) {
+  .eventos-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
