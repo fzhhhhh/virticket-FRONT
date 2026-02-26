@@ -217,8 +217,12 @@ export const asignarRol = async (userId, nuevoRol) => {
 };
 
 // 🔹 Iniciar pago con MercadoPago desde el carrito
-export const iniciarPago = async (items) => {
+export const iniciarPago = async (items, usuario) => {
   const token = localStorage.getItem("token");
+
+  if (!token) return { error: "No hay token. Iniciá sesión." };
+  if (!usuario?.id || !usuario?.correo) return { error: "Falta usuario_id o email_cliente" };
+
   try {
     const response = await fetch(`${API_URL}/pago/crear-preferencia`, {
       method: "POST",
@@ -226,10 +230,17 @@ export const iniciarPago = async (items) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ items }),
+      body: JSON.stringify({
+        items,                       // items con evento_id
+        usuario_id: usuario.id,      // ✅ clave
+        email_cliente: usuario.correo // ✅ clave
+      }),
     });
-    if (!response.ok) throw new Error("No se pudo iniciar el pago");
-    return await response.json(); // { id, init_point }
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data?.error || "No se pudo iniciar el pago");
+
+    return data; // { mp_preference_id, init_point }
   } catch (error) {
     console.error("❌ Error en iniciarPago:", error.message);
     return { error: error.message };
@@ -268,4 +279,50 @@ export const editarCuenta = async (datosActualizados) => {
     console.error("❌ Error en editarCuenta:", error.message);
     return { success: false, error: error.message };
   }
+};
+
+// 🔹 GET ENTRADAS
+export const getMisEntradas = async () => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${API_URL}/entradas/mis`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data?.error || "No se pudieron obtener tus entradas");
+
+  return data;
+};
+
+// 🔹 POST VALIDAR ENTRADA (solo admin / superAdmin
+
+export const validarEntrada = async (codigo_qr) => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${API_URL}/entradas/validar`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify({ codigo_qr }),
+  });
+
+  const text = await res.text();
+  let data = {};
+  try {
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    data = { raw: text };
+  }
+
+  if (!res.ok) {
+    // 👇 ahora sí vas a ver el error real del backend
+    throw new Error(data?.error || data?.mensaje || `HTTP ${res.status}`);
+  }
+
+  return data;
 };

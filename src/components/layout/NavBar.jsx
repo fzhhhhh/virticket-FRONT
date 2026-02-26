@@ -15,6 +15,7 @@ import {
   FaUsers
 } from "react-icons/fa";
 import { ROLES } from "../../data/roles";
+import { FaTicketAlt } from "react-icons/fa";
 
 const NavBar = ({ buscar, setBuscar }) => {
   const navigate = useNavigate();
@@ -114,21 +115,38 @@ const NavBar = ({ buscar, setBuscar }) => {
 
               {!isAdmin && !isSuper && (
                 <Link to="/carrito" onClick={cerrarMenu}>
-                  <Button variant="outline-primary" className="w-100">
+                  <Button variant="outline-primary" className="w-50">
                     <FaShoppingCart className="me-2" />
                     Carrito
                   </Button>
                 </Link>
               )}
 
+              {(isAdmin || isSuper) && (
+               <Link to="/validar-entradas" onClick={cerrarMenu}>
+                <Button variant="outline-primary" className="w-100">
+                  📷 Validar Entradas
+                 </Button>
+                </Link>
+                )}
+
+              {!isAdmin && !isSuper && (
+                  <Link to="/mis-entradas" onClick={cerrarMenu}>
+                <Button variant="outline-primary" className="w-50">
+                    <FaTicketAlt className="me-2" />
+                    Mis QRS
+                  </Button>
+                </Link>
+                )}
+
               <Link to="/editar-cuenta" onClick={cerrarMenu}>
-                <Button variant="outline-secondary" className="w-100">
+                <Button variant="outline-primary" className="w-50">
                   <FaUserShield className="me-2" />
                   Editar cuenta
                 </Button>
               </Link>
 
-              <Button variant="danger" className="w-100" onClick={() => { logoutUsuario(); cerrarMenu(); }}>
+              <Button variant="danger" className="w-" onClick={() => { logoutUsuario(); cerrarMenu(); }}>
                 <FaSignOutAlt className="me-2" />
                 Cerrar Sesión
               </Button>

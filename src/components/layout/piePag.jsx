@@ -11,21 +11,15 @@ const PiePagina = () => {
         className="d-flex justify-content-center mb-4 flex-wrap"
         style={{ gap: "1rem" }}
       >
-        <span className="d-flex align-items-center gap-2">
-          <FaUser /> Matías
-        </span>
+        
         <span className="d-flex align-items-center gap-2">
           <FaUser /> Federico
         </span>
-        <span className="d-flex align-items-center gap-2">
-          <FaUser /> Tiziana
-        </span>
-        <span className="d-flex align-items-center gap-2">
-          <FaUser /> Lorenzo
-        </span>
+        
+        
 
         <a
-          href="https://github.com/Matys205/TP"
+          href="https://github.com/fzhhhhh"
           target="_blank"
           rel="noopener noreferrer"
           className="text-light d-flex align-items-center gap-2"

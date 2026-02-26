@@ -42,6 +42,7 @@ const Carrito = () => {
     const items = carrito.map((item) => {
       const precio = Number(item.precioEvento ?? item.precio);
       return {
+        evento_id: item.id, // 🔥 CLAVE
         title: item.nombreEvento || item.nombre,
         quantity: item.cantidad,
         unit_price: precio,
@@ -53,7 +54,7 @@ const Carrito = () => {
       return;
     }
 
-    const resp = await iniciarPago(items);
+    const resp = await iniciarPago(items, usuario);
     if (resp && resp.init_point) {
       window.location.href = resp.init_point;
     } else {
@@ -154,7 +155,7 @@ const Carrito = () => {
           </div>
           <div className="mt-4 text-end d-flex gap-2 justify-content-end">
             <Button variant="success" size="lg" onClick={pagarConMercadoPago}>
-              Pagar con Mercado Pago
+              Mercadopago
             </Button>
             <Button variant="primary" size="lg" onClick={() => setShowSimulado(true)}>
               Pagar

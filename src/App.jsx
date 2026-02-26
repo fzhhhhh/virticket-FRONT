@@ -15,6 +15,8 @@ import AdminPanel from "./components/auth/AdminPanel";
 import RutaProtegida from "./routes/RutaProtegida";
 import MostrarImagenes from "./components/eventos/mostrareventos/MostrarImagenes";
 import EditarCuenta from "./pages/usuario/EditarCuenta"; // 🔹 NUEVA IMPORTACIÓN
+import MisEntradas from "./pages/usuario/MisEntradas"; // 🔹 NUEVA IMPORTACIÓN
+import ValidarEntradas from "./pages/admin/ValidarEntradas";
 
 function App() {
   const [buscar, setBuscar] = useState("");
@@ -91,6 +93,25 @@ function App() {
                 </RutaProtegida>
               }
             />
+
+            <Route
+              path="/mis-entradas"
+              element={
+                <RutaProtegida rolesPermitidos={["user", "admin", "superAdmin"]}>
+                   <MisEntradas />
+                 </RutaProtegida>
+              }
+            />
+
+            <Route
+               path="/validar-entradas"
+               element={
+                  <RutaProtegida rolesPermitidos={["admin", "superAdmin"]}>
+                  <ValidarEntradas />
+                </RutaProtegida>
+               }
+              />
+            
           </Routes>
         </div>
         <PiePagina />
