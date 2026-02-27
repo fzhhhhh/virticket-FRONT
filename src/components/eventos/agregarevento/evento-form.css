@@ -1,0 +1,16 @@
+.event-form-card{
+  max-width: 600px;
+  margin: 18px auto;
+  padding: 18px;
+  border-radius: 16px !important;
+  background: #101010 !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  box-shadow: 0 0 15px rgba(0,0,0,0.65) !important;
+}
+
+.event-form-title{
+  font-weight: 900;
+  font-size: 1.7rem;
+  text-align: center;
+  margin-bottom: 14px;
+}

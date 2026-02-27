@@ -17,6 +17,9 @@ import MostrarImagenes from "./components/eventos/mostrareventos/MostrarImagenes
 import EditarCuenta from "./pages/usuario/EditarCuenta"; // 🔹 NUEVA IMPORTACIÓN
 import MisEntradas from "./pages/usuario/MisEntradas"; // 🔹 NUEVA IMPORTACIÓN
 import ValidarEntradas from "./pages/admin/ValidarEntradas";
+import ReportesEventos from "./pages/admin/ReportesEventos";
+import CheckoutEvento from "./components/eventos/mostrareventos/CheckoutEvento"; // 🔹 NUEVA IMPORTACIÓN PARA CHECKOUT
+
 
 function App() {
   const [buscar, setBuscar] = useState("");
@@ -48,6 +51,7 @@ function App() {
                 </RutaProtegida>
               }
             />
+            
 
             <Route
               path="/agregarEvento"
@@ -94,6 +98,15 @@ function App() {
               }
             />
 
+                        <Route
+  path="/checkout/:id"
+  element={
+    <RutaProtegida rolesPermitidos={["user", "admin", "superAdmin"]}>
+      <CheckoutEvento />
+    </RutaProtegida>
+  }
+/>
+
             <Route
               path="/mis-entradas"
               element={
@@ -111,6 +124,14 @@ function App() {
                 </RutaProtegida>
                }
               />
+              <Route
+  path="/reportes-eventos"
+  element={
+    <RutaProtegida rolesPermitidos={["admin", "superAdmin"]}>
+      <ReportesEventos />
+    </RutaProtegida>
+  }
+/>
             
           </Routes>
         </div>

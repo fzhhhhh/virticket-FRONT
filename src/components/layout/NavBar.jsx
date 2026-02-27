@@ -5,7 +5,7 @@ import Buscador from "../eventos/buscador/buscador";
 import Login from "../auth/Login";
 import { useSesion } from "../../contexts/sesionContext/SesionContext";
 import "./navbar.css";
-import logo from "../../assets/logo/logoestirado.png";
+import logo from "../../assets/logo/logoestiradooo.png";
 import {
   FaUserShield,
   FaPlus,
@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import { ROLES } from "../../data/roles";
 import { FaTicketAlt } from "react-icons/fa";
+import { FaChartBar } from "react-icons/fa";
 
 const NavBar = ({ buscar, setBuscar }) => {
   const navigate = useNavigate();
@@ -110,6 +111,12 @@ const NavBar = ({ buscar, setBuscar }) => {
                       Gestionar Eventos
                     </Button>
                   </Link>
+                  <Link to="/reportes-eventos" onClick={cerrarMenu}>
+  <Button variant="success" className="w-100">
+    <FaChartBar className="me-2" />
+    Reportes de Eventos
+  </Button>
+</Link>
                 </>
               )}
 

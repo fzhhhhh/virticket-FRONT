@@ -144,26 +144,27 @@ const Detalles = ({ evento: eventoProp, onEditar }) => {
           </Button>
         )}
 
-<Button variant="secondary" onClick={() => navigate("/")} className="mt-2">
-        <FaArrowLeft className="me-2" />
-      </Button>
+<Button
+  variant="secondary"
+  onClick={() => navigate("/")}
+  className="mt-2"
+>
+  <FaArrowLeft className="me-2" />
+</Button>
 
-        {disponible ? (
-          
-          <Button
-            variant={agregado ? "success" : "success"}
-            onClick={handleAgregarCarrito}
-            disabled={agregado}
-          >
-            <FaCartPlus className="me-2" />
-            {agregado ? "La entrada se agrego al Carrito de compras" : "Comprar Entrada"}
-          </Button>
-        ) : (
-          <Button variant="light" disabled>
-            No disponible
-          </Button>
-          
-        )}
+{disponible ? (
+  <Button
+    variant="success"
+    onClick={() => navigate(`/checkout/${id}`)}  // ✅ CAMBIO ACÁ
+  >
+    <FaCartPlus className="me-2" />
+    Comprar Entrada
+  </Button>
+) : (
+  <Button variant="light" disabled>
+    No disponible
+  </Button>
+)}
       </div>
       
 <div className="mb-4">

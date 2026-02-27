@@ -1,87 +1,132 @@
 
-/* MODIFICACION PARA LAS TARJETAS DE LOS EVENTOS LAS DEMAS MODIFICACIONES SE HACEN EN CardEventos.jsx */
-
-.card-evento {
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.card-evento:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.22);
-}
-
-/* AJUSTAR BODY */
-
-body {
-  background-color: rgba(0, 0, 0, 0.22);
-  margin: 0;
-  padding: 0;
-  width: 100%; /* Ocupa todo el ancho */
-  height: 100%h; /* Ocupa toda la altura */
+/* Navbar */
+.navegacion {
+  width: 100%;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, var(--color-primario), var(--color-secundario));
+  box-shadow: var(--sombra-suave);
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 
-/* LOGO DEL NAVBAR */
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
 .navbar-logo {
-  color: #000000 !important;
+  color: var(--color-hover) !important;
   text-decoration: none !important;
-  font-weight: bold;
-  font-size: 2rem;
-  letter-spacing: 10px;
-  transition: color 0.6s ease, transform 0.3s ease;
-  text-shadow: 0 0 5px #00ffcc88;
+  font-weight: 800;
+  font-size: 1.8rem;
+  letter-spacing: 6px;
+  transition: transform 0.2s ease, color 0.2s ease;
+  text-shadow: 0 0 10px rgba(102, 255, 229, 0.25);
 }
+
 .navbar-logo:hover {
   color: #66ffe5 !important;
-  transform: scale(1.1); /* leve agrandamiento */
+  transform: scale(1.05);
 }
 
-.mb-4 {
-  color: #ffffff !important;
-  text-decoration: none !important;
-  font-weight: bold;
-  font-size: 1rem;
-  letter-spacing: 2px;
-  transition: color 0.6s ease, transform 0.3s ease;
-  text-shadow: 0 0 5px #0c552d88;
-}
-.navbar-logo:hover {
-  color: #66ffe5 !important;
-  transform: scale(1.1); /* leve agrandamiento */
+.boton-agregar {
+  background: var(--color-hover);
+  color: #000;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  box-shadow: var(--sombra-suave);
 }
 
-.mostrar-imagenes {
-  height: 25vw;
-  width: 100vw;
-  justify-content: center;
-  display: block;
-  max-width: 100%;
-  border-radius: 20px;
-  border: 5px solid;
-}
-.carousel-mostrar-imagenes {
-  display: flex;             /* Para usar flexbox */
-  justify-content: center;   /* Centrar horizontalmente el contenido */
-  margin: 0 auto;            /* Centrar el contenedor en la página */
-  width: 100vw;               /* Ancho del 80% del viewport */
-  padding-top: 2%;
- 
-
+.boton-agregar:hover {
+  transform: translateY(-1px);
+  background-color: #fff;
 }
 
+/* Layout general */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 16px;
+}
+
+.page-title {
+  color: #fff;
+  margin: 0 0 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* Grid de eventos (usar ESTE en vez de eventos-container) */
 .eventos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  max-width: 100%;
-  gap: 0.5rem;
-  padding-top: 0%;
+  gap: 14px;
   min-height: 50vh;
-  justify-content: center;
-  place-content: center;
+  align-items: start;
 }
 
-/* Limita el número de columnas a 5 */
+/* Limitar columnas a 5 */
 @media (min-width: 1600px) {
   .eventos-grid {
     grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Card evento */
+.card-evento {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-evento:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.28);
+}
+
+/* Carrusel */
+.mostrar-imagenes {
+  width: min(1100px, 100%);
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  border: 4px solid rgba(255,255,255,0.12);
+}
+
+.carousel-mostrar-imagenes {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding-top: 14px;
+}
+
+/* Footer */
+.piePagina {
+  width: 100%;
+  background-color: #1e1e2f;
+  color: white;
+  text-align: center;
+  padding: 24px 12px;
+  margin-top: 40px;
+}
+
+/* Responsive navbar */
+@media (max-width: 768px) {
+  .navegacion {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 12px;
+  }
+
+  .boton-agregar {
+    width: 100%;
   }
 }

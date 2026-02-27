@@ -326,3 +326,29 @@ export const validarEntrada = async (codigo_qr) => {
 
   return data;
 };
+
+// 🔹 GET RESUMEN DE UN EVENTO (solo admin / superAdmin
+
+// services/api.js (o donde tengas API_URL y tus exports)
+
+export const getResumenEvento = async (eventoId) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API_URL}/reportes/eventos/${eventoId}/resumen`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data?.error || "Error al obtener resumen");
+  return data;
+};
+
+export const getVentasEvento = async (eventoId) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API_URL}/reportes/eventos/${eventoId}/ventas`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data?.error || "Error al obtener ventas");
+  return data;
+};
