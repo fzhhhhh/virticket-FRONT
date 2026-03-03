@@ -10,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [cargando, setCargando] = useState(false);
+
   const navigate = useNavigate();
   const { loginUsuario } = useSesion();
 
@@ -25,18 +26,22 @@ const Login = () => {
     try {
       const response = await login(email, password);
 
-      if (response.error) {
-        setError(response.error);
-      } else {
-        localStorage.removeItem("token");
-        localStorage.removeItem("usuario");
-
-        loginUsuario(response);
-        localStorage.setItem("token", response.token);
-        setError(null);
-        handleCerrar();
-        navigate("/mostrarEvento");
+      // tu api a veces devuelve { error } o { mensaje }
+      if (response?.error || response?.mensaje) {
+        setError(response?.error || response?.mensaje);
+        return;
       }
+
+      // ✅ esto ya guarda token + usuario (id/nombre/correo/role)
+      loginUsuario(response);
+
+      handleCerrar();
+
+      // ✅ redirección según rol
+      const role = response?.role;
+      if (role === "superAdmin") navigate("/usuarios");
+      else if (role === "productor") navigate("/reportes-eventos");
+      else navigate("/mostrarEvento");
     } catch (err) {
       setError("Error al conectar con el servidor");
       console.error("❌ Error en login:", err);
@@ -56,15 +61,11 @@ const Login = () => {
         INGRESAR
       </Button>
 
-      <Modal
-        className="mt-5 mx-3 p-3 px-5 shadow"
-        show={show}
-        onHide={handleCerrar}
-        centered
-      >
+      <Modal className="mt-5 mx-3 p-3 px-5 shadow" show={show} onHide={handleCerrar} centered>
         <Modal.Header closeButton>
           <Modal.Title>Inicio de Sesión</Modal.Title>
         </Modal.Header>
+
         <Modal.Body>
           <Form onSubmit={handleSubmit} autoComplete="on">
             <FormGroup className="mb-3">
@@ -78,6 +79,7 @@ const Login = () => {
                 autoFocus
               />
             </FormGroup>
+
             <FormGroup className="mb-3">
               <Form.Label>Contraseña</Form.Label>
               <Form.Control
@@ -97,12 +99,7 @@ const Login = () => {
 
             <Row className="mb-2">
               <Col className="d-flex justify-content-center">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  disabled={cargando}
-                  style={{ minWidth: 140 }}
-                >
+                <Button variant="primary" type="submit" disabled={cargando} style={{ minWidth: 140 }}>
                   {cargando ? (
                     <>
                       <Spinner
@@ -121,7 +118,9 @@ const Login = () => {
                 </Button>
               </Col>
             </Row>
+
             <hr />
+
             <Row className="mt-2">
               <Col className="text-center">
                 <span>¿No tienes cuenta?</span>

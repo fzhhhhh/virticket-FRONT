@@ -19,18 +19,30 @@ export const SesionProvider = ({ children }) => {
     }
   }, [usuario]);
 
-  // Función para loguear (puede recibir el objeto usuario devuelto por el backend)
-  const loginUsuario = (usuarioObj) => {
-    setUsuario(usuarioObj || null);
+  // ✅ Login: guardo token + usuario (incluye role)
+  const loginUsuario = (data) => {
+    // data debería venir del backend: { token, role, correo, id, nombre }
+    if (!data?.token || !data?.role) {
+      console.warn("loginUsuario: faltan token/role en data", data);
+      setUsuario(null);
+      return;
+    }
+
+    localStorage.setItem("token", data.token);
+
+    setUsuario({
+      id: data.id,
+      nombre: data.nombre,
+      correo: data.correo,
+      role: data.role,
+    });
   };
 
-  // Función para desloguear
   const logoutUsuario = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("usuario");
     setUsuario(null);
   };
-
 
   return (
     <SesionContext.Provider value={{ usuario, setUsuario, loginUsuario, logoutUsuario }}>

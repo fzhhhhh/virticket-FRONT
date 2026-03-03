@@ -126,17 +126,20 @@ export const login = async (correo, contraseña) => {
   }
 };
 
-// 🔹 Autenticación: registro
-export const register = async (nombre, correo, contraseña) => {
+// 🔹 Autenticación: registro (actualizado)
+// data = { nombre, apellido, correo, contraseña, dni?, fecha_nacimiento?, genero? }
+export const register = async (data) => {
   try {
     const response = await fetch(`${API_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre, correo, contraseña }),
+      body: JSON.stringify(data),
     });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.mensaje || "Error al registrarse");
-    return data;
+
+    const resData = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(resData.mensaje || resData.error || "Error al registrarse");
+
+    return resData;
   } catch (error) {
     console.error("❌ Error en register:", error.message);
     return { error: error.message };
@@ -306,25 +309,14 @@ export const validarEntrada = async (codigo_qr) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ codigo_qr }),
   });
 
-  const text = await res.text();
-  let data = {};
-  try {
-    data = text ? JSON.parse(text) : {};
-  } catch {
-    data = { raw: text };
-  }
-
-  if (!res.ok) {
-    // 👇 ahora sí vas a ver el error real del backend
-    throw new Error(data?.error || data?.mensaje || `HTTP ${res.status}`);
-  }
-
-  return data;
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data?.error || "No se pudo validar la entrada");
+  return data; // { ok, mensaje, entradaId, evento_id, venta_id }
 };
 
 // 🔹 GET RESUMEN DE UN EVENTO (solo admin / superAdmin
@@ -352,3 +344,130 @@ export const getVentasEvento = async (eventoId) => {
   if (!res.ok) throw new Error(data?.error || "Error al obtener ventas");
   return data;
 };
+
+// 🔹 Completar titular de una entrada
+export const completarTitular = async (entradaId, data) => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${API_URL}/entradas/${entradaId}/titular`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const responseData = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(responseData?.error || "No se pudo completar titular");
+
+  return responseData;
+};
+
+// 🔹 GET KPIs de entradas de un evento (solo admin / superAdmin
+export const getEntradasKpisEvento = async (eventoId) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API_URL}/reportes/eventos/${eventoId}/entradas-kpis`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data?.error || "Error al obtener KPIs de entradas");
+  return data;
+};
+// 🔹 GET Demografía de un evento (solo admin / superAdmin
+export const getDemografiaEvento = async (eventoId, modo = "titulados") => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(
+    `${API_URL}/reportes/eventos/${eventoId}/demografia?modo=${encodeURIComponent(modo)}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data?.error || "Error al obtener demografía");
+  return data;
+};
+// 🔹 GET Ingresos por hora de un evento (solo admin / superAdmin
+export const getIngresosPorHora = async (eventoId) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API_URL}/reportes/eventos/${eventoId}/ingresos-hora`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const data = await res.json().catch(() => ([]));
+  if (!res.ok) throw new Error(data?.error || "Error al obtener ingresos por hora");
+  return data;
+};
+
+
+// 🔹 Descargar Excel de un evento (solo admin / superAdmin
+
+export const descargarExcelEvento = async (eventoId) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${API_URL}/reportes/eventos/${eventoId}/excel`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data?.error || "No se pudo descargar el Excel");
+  }
+
+  return await res.blob();
+};
+
+// ✅ Si ya tenés una función getEventos() en tu services/api, reemplazá esta por la tuya.
+async function getEventosAdmin() {
+  const API_URL = import.meta.env.VITE_API_URL;
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${API_URL}/events`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+
+  const data = await res.json().catch(() => []);
+  if (!res.ok) throw new Error(data?.error || "No se pudieron cargar eventos");
+  return data;
+}
+
+
+function authHeaders() {
+  const token = localStorage.getItem("token");
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export async function getStaffDisponibles(eventoId) {
+  const res = await fetch(`${API_URL}/staff/${eventoId}/disponibles`, {
+    headers: { ...authHeaders() },
+  });
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(data?.error || "No se pudo cargar staff disponibles");
+  return data; // ← array
+}
+
+export async function getStaffAsignados(eventoId) {
+  const res = await fetch(`${API_URL}/staff/${eventoId}/asignados`, {
+    headers: { ...authHeaders() },
+  });
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(data?.error || "No se pudo cargar staff asignado");
+  return data; // ← array
+}
+
+export async function asignarStaff(eventoId, staff_id) {
+  const res = await fetch(`${API_URL}/staff/${eventoId}/asignar`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify({ staff_id }),
+  });
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(data?.error || "No se pudo asignar staff");
+  return data;
+}
+
+export async function quitarStaff(eventoId, staffId) {
+  const res = await fetch(`${API_URL}/staff/${eventoId}/quitar/${staffId}`, {
+    method: "DELETE",
+    headers: { ...authHeaders() },
+  });
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(data?.error || "No se pudo quitar staff");
+  return data;
+}
